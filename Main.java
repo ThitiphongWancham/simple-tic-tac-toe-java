@@ -4,12 +4,15 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        // an array to store each of those moves
+
+        // create the 3x3 array to store each of those moves
         char[][] turn = new char[3][3];
-        // initialize the array with ' '
+
+        // initialize that array with ' '
         Arrays.fill(turn[0], ' ');
         Arrays.fill(turn[1], ' ');
         Arrays.fill(turn[2], ' ');
+
         // variables for tracking the game state
         char[] players = {'X', 'O'};
         int currentPlayer = 0;
@@ -19,12 +22,14 @@ public class Main {
         printField(turn);
 
         while (!isOver) {
-            // get the next move and print the field
+            // get the next move and print the field after successfully place the move
             getNextMove(turn, scanner, players, currentPlayer);
             printField(turn);
 
+            // switch to another player
             currentPlayer++;
 
+            // check whether there is a winner
             char winner = findWinner(turn);
 
             if (winner == 'D') {
@@ -54,6 +59,7 @@ public class Main {
                 int j = scanner.nextInt() - 1;
 
                 if (turn[i][j] == ' ') {
+                    // 'X' is even number, and 'O' is odd number
                     turn[i][j] = players[currentPlayer % 2];
                     isPlaced = true;
                 } else {
@@ -70,7 +76,7 @@ public class Main {
     public static char findWinner(char[][] turn) {
         int countEmptySlot = 0;
 
-        // straight-line cases (exclude diagonal cases)
+        // winning in straight-line cases
         for (int i = 0; i < 3; i++) {
             if (turn[i][0] == turn[i][1] && turn[i][1] == turn[i][2]) {
                 return turn[i][0];
@@ -79,7 +85,7 @@ public class Main {
             }
         }
 
-        // diagonal cases
+        // winning in diagonal cases
         boolean diagonalWin =
                 turn[0][0] == turn[1][1] && turn[1][1] == turn[2][2] ||
                         turn[0][2] == turn[1][1] && turn[1][1] == turn[2][0];
